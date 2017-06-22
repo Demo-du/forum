@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="forum_du"
+  id="myeclipse.1498114879572"
+  context-root="/forum_du"
+  j2ee-spec="6.0"
+  archive="forum_du.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
