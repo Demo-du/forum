@@ -7,60 +7,60 @@ import org.springframework.transaction.*;
 import org.springframework.jdbc.datasource.*;
 import org.springframework.transaction.support.*;            
 public class DBUtil{
-	private JdbcTemplate jt;									//ÉùÃ÷JdbcTemplate¶ÔÏóÒıÓÃ						
-	private List rl = null;										//ÉùÃ÷List¶ÔÏóÒıÓÃ
-	private String sql = null;								//ÉùÃ÷SQL×Ö·û´®ÒıÓÃ
-	private DataSource ds;										//ÉùÃ÷DataSourceÒıÓÃ
+	private JdbcTemplate jt;									//å£°æ˜JdbcTemplateå¯¹è±¡å¼•ç”¨						
+	private List rl = null;										//å£°æ˜Listå¯¹è±¡å¼•ç”¨
+	private String sql = null;								//å£°æ˜SQLå­—ç¬¦ä¸²å¼•ç”¨
+	private DataSource ds;										//å£°æ˜DataSourceå¼•ç”¨
 	private DataSourceTransactionManager dtm;				
 	private DefaultTransactionDefinition dtd;
-	public void setJt(JdbcTemplate jt){						//jt³ÉÔ±µÄsetter·½·¨
-		this.jt = jt;										//ÉèÖÃjtÊôĞÔµÄÖµ
+	public void setJt(JdbcTemplate jt){						//jtæˆå‘˜çš„setteræ–¹æ³•
+		this.jt = jt;										//è®¾ç½®jtå±æ€§çš„å€¼
 	}
 	public void setDs(DataSource ds){
 		this.ds=ds;
 	}
 	public List getIndexContent(String sql){
-		List al = new ArrayList();							//´´½¨·µ»ØList¶ÔÏó
+		List al = new ArrayList();							//åˆ›å»ºè¿”å›Listå¯¹è±¡
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");		//¶ÔSQL½øĞĞ×ªÂë
-			rl = jt.queryForList(sql);							//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){									//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){					//±éÀú½á¹û
-					Map map=(Map)rl.get(i);						//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					GroupItem gi = new GroupItem();				//´´½¨Ò»¸öGroupItem¶ÔÏó
-					gi.setGid(map.get("gid").toString());		//ÉèÖÃ¿Î³ÌIDÖµ
+			sql = new String(sql.getBytes(),"iso8859-1");		//å¯¹SQLè¿›è¡Œè½¬ç 
+			rl = jt.queryForList(sql);							//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){									//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){					//éå†ç»“æœ
+					Map map=(Map)rl.get(i);						//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					GroupItem gi = new GroupItem();				//åˆ›å»ºä¸€ä¸ªGroupItemå¯¹è±¡
+					gi.setGid(map.get("gid").toString());		//è®¾ç½®è¯¾ç¨‹IDå€¼
 					gi.setGName(new String(map.get("gname").toString().getBytes("iso8859-1"),"gbk"));
 					gi.setDetail(new String(map.get("detail").toString().getBytes("iso8859-1"),"gbk"));
-					gi.setTopic(map.get("topic").toString());	//ÉèÖÃÎÊÌâÊıÁ¿ÊôĞÔÖµ
-					gi.setRevert(map.get("revert").toString());	//ÉèÖÃ»Ø¸´ÊıÁ¿ÊôĞÔÖµ
+					gi.setTopic(map.get("topic").toString());	//è®¾ç½®é—®é¢˜æ•°é‡å±æ€§å€¼
+					gi.setRevert(map.get("revert").toString());	//è®¾ç½®å›å¤æ•°é‡å±æ€§å€¼
 					gi.setUname(new String(map.get("uname").toString().getBytes("iso8859-1"),"gbk"));
-					gi.setTid(new String((byte[])map.get("tid"),"iso8859-1"));	//ÉèÖÃ×îºó»Ø¸´ÎÊÌâµÄIDÖµ
+					gi.setTid(new String((byte[])map.get("tid"),"iso8859-1"));	//è®¾ç½®æœ€åå›å¤é—®é¢˜çš„IDå€¼
 					gi.setTitle(new String(map.get("title").toString().getBytes("iso8859-1"),"gbk"));
 					gi.setLastTime(new String((byte[])map.get("lastTime"),"iso8859-1"));
-					al.add(gi);									//½«´Ë¿Î³Ì¶ÔÏó·Å½ø·µ»ØListÖĞ
+					al.add(gi);									//å°†æ­¤è¯¾ç¨‹å¯¹è±¡æ”¾è¿›è¿”å›Listä¸­
 				}
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
-		return al;														//·µ»Ø½á¹û
+		return al;														//è¿”å›ç»“æœ
 	}
-	public List getGroupContent(String sql){	//µÃµ½°å¿éÄÚÈİ
-		List al = new ArrayList();							//´´½¨·µ»ØList¶ÔÏó		
+	public List getGroupContent(String sql){	//å¾—åˆ°æ¿å—å†…å®¹
+		List al = new ArrayList();							//åˆ›å»ºè¿”å›Listå¯¹è±¡		
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");	//¶ÔSQL½øĞĞ×ªÂë
-			rl = jt.queryForList(sql);						//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){								//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){				//±éÀú½á¹û
-					Map map=(Map)rl.get(i);					//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					TopicItem ti = new TopicItem();			//´´½¨Ò»¸öTopicItem¶ÔÏó
-					ti.setTid(map.get("tid").toString());	//ÉèÖÃTopicItem¶ÔÏóµÄÌû×ÓÖ÷¼üÊôĞÔÖµ
+			sql = new String(sql.getBytes(),"iso8859-1");	//å¯¹SQLè¿›è¡Œè½¬ç 
+			rl = jt.queryForList(sql);						//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){								//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){				//éå†ç»“æœ
+					Map map=(Map)rl.get(i);					//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					TopicItem ti = new TopicItem();			//åˆ›å»ºä¸€ä¸ªTopicItemå¯¹è±¡
+					ti.setTid(map.get("tid").toString());	//è®¾ç½®TopicItemå¯¹è±¡çš„å¸–å­ä¸»é”®å±æ€§å€¼
 					ti.setFtr(new String(map.get("ftr").toString().getBytes("iso8859-1"),"gbk"));
 					ti.setTitle(new String(map.get("title").toString().getBytes("iso8859-1"),"gbk"));
-					ti.setDjs(map.get("djs").toString());		//ÉèÖÃTopicItem¶ÔÏóµÄµã»÷ÊıÊôĞÔÖµ				
-					ti.setRevert(map.get("revert").toString());	//ÉèÖÃTopicItem¶ÔÏóµÄ»Ø¸´ÊıÊôĞÔÖµ
-					ti.setFtsj(map.get("ftsj").toString().substring(0,19));	//ÉèÖÃ·¢ÌûÊ±¼äÊôĞÔÖµ
+					ti.setDjs(map.get("djs").toString());		//è®¾ç½®TopicItemå¯¹è±¡çš„ç‚¹å‡»æ•°å±æ€§å€¼				
+					ti.setRevert(map.get("revert").toString());	//è®¾ç½®TopicItemå¯¹è±¡çš„å›å¤æ•°å±æ€§å€¼
+					ti.setFtsj(map.get("ftsj").toString().substring(0,19));	//è®¾ç½®å‘å¸–æ—¶é—´å±æ€§å€¼
 					ti.setHtr(new String(map.get("htr").toString().getBytes("iso8859-1"),"gbk"));
 					ti.setLastTime(map.get("htsj").toString().substring(0,19));
 					ti.setGname(new String(map.get("gname").toString().getBytes("iso8859-1"),"gbk"));
@@ -69,20 +69,20 @@ public class DBUtil{
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
-		return al;														//·µ»Ø½á¹û
+		return al;														//è¿”å›ç»“æœ
 	}
 	public List getApplyContent(String sql){
-		List al = new ArrayList();							//´´½¨·µ»ØList¶ÔÏó
+		List al = new ArrayList();							//åˆ›å»ºè¿”å›Listå¯¹è±¡
 		System.out.println(sql);
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");		//¶ÔSQL½øĞĞ×ªÂë
-			rl = jt.queryForList(sql);				//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){						//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){		//±éÀú½á¹û
-					Map map=(Map)rl.get(i);			//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					ApplyItem ai = new ApplyItem();	//´´½¨Ò»¸öApplyItem¶ÔÏó
+			sql = new String(sql.getBytes(),"iso8859-1");		//å¯¹SQLè¿›è¡Œè½¬ç 
+			rl = jt.queryForList(sql);				//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){						//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){		//éå†ç»“æœ
+					Map map=(Map)rl.get(i);			//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					ApplyItem ai = new ApplyItem();	//åˆ›å»ºä¸€ä¸ªApplyItemå¯¹è±¡
 					ai.setAid(map.get("AID").toString());
 					ai.setUid(map.get("UID").toString());
 					ai.setUname(new String(map.get("UName").toString().getBytes("iso8859-1"),"gbk"));
@@ -96,25 +96,25 @@ public class DBUtil{
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();									//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();									//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
 		return al;
 	}
 	public List getTopicDetail(String sql){
-		List al = new ArrayList();							//´´½¨·µ»ØList¶ÔÏó		
+		List al = new ArrayList();							//åˆ›å»ºè¿”å›Listå¯¹è±¡		
 		System.out.println(sql);
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");		//¶ÔSQL½øĞĞ×ªÂë
-			rl = jt.queryForList(sql);				//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){						//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){		//±éÀú½á¹û
-					Map map=(Map)rl.get(i);			//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					TopicDetailItem tdi = new TopicDetailItem();	//´´½¨Ò»¸öTopicDetailItem¶ÔÏó
+			sql = new String(sql.getBytes(),"iso8859-1");		//å¯¹SQLè¿›è¡Œè½¬ç 
+			rl = jt.queryForList(sql);				//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){						//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){		//éå†ç»“æœ
+					Map map=(Map)rl.get(i);			//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					TopicDetailItem tdi = new TopicDetailItem();	//åˆ›å»ºä¸€ä¸ªTopicDetailItemå¯¹è±¡
 					tdi.setUname(new String(map.get("uname").toString().getBytes("iso8859-1"),"gbk"));			
 					tdi.setGender(new String(map.get("gender").toString().getBytes("iso8859-1"),"gbk"));
 					tdi.setTx(new String(map.get("tx").toString().getBytes("iso8859-1"),"gbk"));
-					tdi.setZcsj(map.get("zcsj").toString());		//ÉèÖÃtdiµÄ·¢ÌûÈË×¢²áÊ±¼äÊôĞÔÖµ
-					tdi.setZhdl(new String((byte[])map.get("zhdl")));//ÉèÖÃtdiµÄ·¢ÌûÈË×îºóµÇÂ½Ê±¼äÊôĞÔ
+					tdi.setZcsj(map.get("zcsj").toString());		//è®¾ç½®tdiçš„å‘å¸–äººæ³¨å†Œæ—¶é—´å±æ€§å€¼
+					tdi.setZhdl(new String((byte[])map.get("zhdl")));//è®¾ç½®tdiçš„å‘å¸–äººæœ€åç™»é™†æ—¶é—´å±æ€§
 					tdi.setTitle(new String(map.get("title").toString().getBytes("iso8859-1"),"gbk"));					
 					tdi.setContent(new String(map.get("content").toString().getBytes("iso8859-1"),"gbk"));
 					tdi.setTag(new String(map.get("tag").toString().getBytes("iso8859-1"),"gbk"));
@@ -124,17 +124,17 @@ public class DBUtil{
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
-		return al;														//·µ»Ø½á¹û		
+		return al;														//è¿”å›ç»“æœ		
 	}
-	public int getTotal(String sql,int span){						//µÃµ½×ÜÒ³Êı
-		int total = 0;										//ÉùÃ÷Ò³Êı·µ»ØÖµ
+	public int getTotal(String sql,int span){						//å¾—åˆ°æ€»é¡µæ•°
+		int total = 0;										//å£°æ˜é¡µæ•°è¿”å›å€¼
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");	//¶ÔsqlÓï¾ä×ªÂë
+			sql = new String(sql.getBytes(),"iso8859-1");	//å¯¹sqlè¯­å¥è½¬ç 
 			sql = "select count(*) from ("+sql+")a";
-			int rows = jt.queryForInt(sql);					//Ö´ĞĞ²éÑ¯µÃµ½×Ü¼ÇÂ¼ÌõÊı			
-			total = rows/span+((rows%span==0)?0:1);			//¼ÆËãµÃµ½×ÜÒ³Êı						
+			int rows = jt.queryForInt(sql);					//æ‰§è¡ŒæŸ¥è¯¢å¾—åˆ°æ€»è®°å½•æ¡æ•°			
+			total = rows/span+((rows%span==0)?0:1);			//è®¡ç®—å¾—åˆ°æ€»é¡µæ•°						
 		}
 		catch(UnsupportedEncodingException uee){
 			uee.printStackTrace();
@@ -142,121 +142,121 @@ public class DBUtil{
 		return total;
 	}
 	public User getUserInfo(String sql){
-		User user = new User();							//´´½¨·µ»ØUser¶ÔÏó		
+		User user = new User();							//åˆ›å»ºè¿”å›Userå¯¹è±¡		
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");//¶ÔSQL½øĞĞ×ªÂë
-			rl = jt.queryForList(sql);				//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){						//½á¹û²»Îª¿ÕµÄÇé¿ö
-				Map map=(Map)rl.get(0);				//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-				user.setUid(map.get("UID").toString());	//ÉèÖÃUser¶ÔÏóµÄuidÊôĞÔ
+			sql = new String(sql.getBytes(),"iso8859-1");//å¯¹SQLè¿›è¡Œè½¬ç 
+			rl = jt.queryForList(sql);				//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){						//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				Map map=(Map)rl.get(0);				//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+				user.setUid(map.get("UID").toString());	//è®¾ç½®Userå¯¹è±¡çš„uidå±æ€§
 				user.setUname(new String(map.get("UName").toString().getBytes("iso8859-1"),"gbk"));
 				user.setGender(new String(map.get("UGender").toString().getBytes("iso8859-1"),"gbk"));
-				user.setEmail(map.get("UEmail").toString());//ÉèÖÃUser¶ÔÏóµÄemailÊôĞÔ
-				user.setRole(map.get("URole").toString());	//ÉèÖÃUser¶ÔÏóµÄroleÊôĞÔ					
-				user.setHead(map.get("UHead").toString());	//ÉèÖÃUser¶ÔÏóµÄheadÊôĞÔ
+				user.setEmail(map.get("UEmail").toString());//è®¾ç½®Userå¯¹è±¡çš„emailå±æ€§
+				user.setRole(map.get("URole").toString());	//è®¾ç½®Userå¯¹è±¡çš„roleå±æ€§					
+				user.setHead(map.get("UHead").toString());	//è®¾ç½®Userå¯¹è±¡çš„headå±æ€§
 				user.setRegDate(map.get("URegDate").toString());
 				user.setLastLogin(map.get("ULastLogin").toString().substring(0,19));				
 				user.setPermit(map.get("UPermit").toString());
 				Object last = map.get("ULastEmit");
 				if(last==null){
-					user.setLastEmit("xxxx-xx-xx");				//Ã»ÓĞ·¢±í¹ıÈÎºÎ»Ø¸´»òÎÊÌâ
+					user.setLastEmit("xxxx-xx-xx");				//æ²¡æœ‰å‘è¡¨è¿‡ä»»ä½•å›å¤æˆ–é—®é¢˜
 				}
 				else{
-					String lastEmit = last.toString();			//×ªÎª×Ö·û´®
-					user.setLastEmit(lastEmit.substring(0,19));	//·¢±í¹ıµÄÇé¿ö
+					String lastEmit = last.toString();			//è½¬ä¸ºå­—ç¬¦ä¸²
+					user.setLastEmit(lastEmit.substring(0,19));	//å‘è¡¨è¿‡çš„æƒ…å†µ
 				}
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
 		return user;
 	}
 	public List getStuList(String sql){
-		List al = new ArrayList();							//´´½¨·µ»ØList¶ÔÏó			
+		List al = new ArrayList();							//åˆ›å»ºè¿”å›Listå¯¹è±¡			
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");//¶ÔSQL½øĞĞ×ªÂë
-			rl = jt.queryForList(sql);				//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){						//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){		//±éÀú½á¹û
-					Map map=(Map)rl.get(i);				//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					User user = new User();							//´´½¨·µ»ØUser¶ÔÏó	
-					user.setUid(map.get("UID").toString());	//ÉèÖÃUser¶ÔÏóµÄuidÊôĞÔ
+			sql = new String(sql.getBytes(),"iso8859-1");//å¯¹SQLè¿›è¡Œè½¬ç 
+			rl = jt.queryForList(sql);				//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){						//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){		//éå†ç»“æœ
+					Map map=(Map)rl.get(i);				//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					User user = new User();							//åˆ›å»ºè¿”å›Userå¯¹è±¡	
+					user.setUid(map.get("UID").toString());	//è®¾ç½®Userå¯¹è±¡çš„uidå±æ€§
 					user.setUname(new String(map.get("UName").toString().getBytes("iso8859-1"),"gbk"));
 					user.setTgname(new String(map.get("TGName").toString().getBytes("iso8859-1"),"gbk"));
 					user.setGender(new String(map.get("UGender").toString().getBytes("iso8859-1"),"gbk"));
-					user.setEmail(map.get("UEmail").toString());//ÉèÖÃUser¶ÔÏóµÄemailÊôĞÔ	
+					user.setEmail(map.get("UEmail").toString());//è®¾ç½®Userå¯¹è±¡çš„emailå±æ€§	
 					user.setTuid(map.get("TUID").toString());		
 					user.setRegDate(map.get("URegDate").toString());
 					user.setLastLogin(map.get("ULastLogin").toString().substring(0,19));				
 					user.setPermit(map.get("UPermit").toString());				
 					Object last = map.get("ULastEmit");
 					if(last==null){
-						user.setLastEmit("xxxx-xx-xx");				//Ã»ÓĞ·¢±í¹ıÈÎºÎ»Ø¸´»òÎÊÌâ
+						user.setLastEmit("xxxx-xx-xx");				//æ²¡æœ‰å‘è¡¨è¿‡ä»»ä½•å›å¤æˆ–é—®é¢˜
 					}
 					else{
-						String lastEmit = last.toString();			//×ªÎª×Ö·û´®
-						user.setLastEmit(lastEmit.substring(0,19));	//·¢±í¹ıµÄÇé¿ö
+						String lastEmit = last.toString();			//è½¬ä¸ºå­—ç¬¦ä¸²
+						user.setLastEmit(lastEmit.substring(0,19));	//å‘è¡¨è¿‡çš„æƒ…å†µ
 					}
 					al.add(user);
 				}
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
 		return al;
 	}
 	public List getUserList(String sql){
-		List al = new ArrayList();							//´´½¨·µ»ØList¶ÔÏó			
+		List al = new ArrayList();							//åˆ›å»ºè¿”å›Listå¯¹è±¡			
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");//¶ÔSQL½øĞĞ×ªÂë
-			rl = jt.queryForList(sql);				//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){						//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){		//±éÀú½á¹û
-					Map map=(Map)rl.get(i);				//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					User user = new User();							//´´½¨·µ»ØUser¶ÔÏó	
-					user.setUid(map.get("UID").toString());	//ÉèÖÃUser¶ÔÏóµÄuidÊôĞÔ
+			sql = new String(sql.getBytes(),"iso8859-1");//å¯¹SQLè¿›è¡Œè½¬ç 
+			rl = jt.queryForList(sql);				//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){						//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){		//éå†ç»“æœ
+					Map map=(Map)rl.get(i);				//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					User user = new User();							//åˆ›å»ºè¿”å›Userå¯¹è±¡	
+					user.setUid(map.get("UID").toString());	//è®¾ç½®Userå¯¹è±¡çš„uidå±æ€§
 					user.setUname(new String(map.get("UName").toString().getBytes("iso8859-1"),"gbk"));
 					user.setGender(new String(map.get("UGender").toString().getBytes("iso8859-1"),"gbk"));
-					user.setEmail(map.get("UEmail").toString());//ÉèÖÃUser¶ÔÏóµÄemailÊôĞÔ	
+					user.setEmail(map.get("UEmail").toString());//è®¾ç½®Userå¯¹è±¡çš„emailå±æ€§	
 					user.setRegDate(map.get("URegDate").toString());				
 					user.setPermit(map.get("UPermit").toString());	
 					user.setRole(map.get("URole").toString());				
 					Object last = map.get("ULastEmit");
 					if(last==null){
-						user.setLastEmit("xxxx-xx-xx");				//Ã»ÓĞ·¢±í¹ıÈÎºÎ»Ø¸´»òÎÊÌâ
+						user.setLastEmit("xxxx-xx-xx");				//æ²¡æœ‰å‘è¡¨è¿‡ä»»ä½•å›å¤æˆ–é—®é¢˜
 					}
 					else{
-						String lastEmit = last.toString();			//×ªÎª×Ö·û´®
-						user.setLastEmit(lastEmit.substring(0,19));	//·¢±í¹ıµÄÇé¿ö
+						String lastEmit = last.toString();			//è½¬ä¸ºå­—ç¬¦ä¸²
+						user.setLastEmit(lastEmit.substring(0,19));	//å‘è¡¨è¿‡çš„æƒ…å†µ
 					}
 					last = map.get("ULastLogin");
 					if(last==null){
-						user.setLastLogin("xxxx-xx-xx");				//Ã»ÓĞ·¢±í¹ıÈÎºÎ»Ø¸´»òÎÊÌâ
+						user.setLastLogin("xxxx-xx-xx");				//æ²¡æœ‰å‘è¡¨è¿‡ä»»ä½•å›å¤æˆ–é—®é¢˜
 					}
 					else{
-						String lastLogin = last.toString();				//×ªÎª×Ö·û´®
-						user.setLastLogin(lastLogin.substring(0,19));	//·¢±í¹ıµÄÇé¿ö
+						String lastLogin = last.toString();				//è½¬ä¸ºå­—ç¬¦ä¸²
+						user.setLastLogin(lastLogin.substring(0,19));	//å‘è¡¨è¿‡çš„æƒ…å†µ
 					}
 					al.add(user);
 				}
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
 		return al;
 	}
 	public List getManageList(String sql){
-		List al = new ArrayList();							//´´½¨·µ»ØList¶ÔÏó			
+		List al = new ArrayList();							//åˆ›å»ºè¿”å›Listå¯¹è±¡			
 		try{
-			rl = jt.queryForList(sql);				//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){						//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){		//±éÀú½á¹û
-					Map map=(Map)rl.get(i);				//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					User user = new User();							//´´½¨·µ»ØUser¶ÔÏó	
-					user.setUid(map.get("UID").toString());	//ÉèÖÃUser¶ÔÏóµÄuidÊôĞÔ
+			rl = jt.queryForList(sql);				//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){						//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){		//éå†ç»“æœ
+					Map map=(Map)rl.get(i);				//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					User user = new User();							//åˆ›å»ºè¿”å›Userå¯¹è±¡	
+					user.setUid(map.get("UID").toString());	//è®¾ç½®Userå¯¹è±¡çš„uidå±æ€§
 					user.setUname(new String(map.get("UName").toString().getBytes("iso8859-1"),"gbk"));				
 					user.setRole(map.get("URole").toString());		
 					al.add(user);
@@ -264,20 +264,20 @@ public class DBUtil{
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
 		return al;
 	}
 	public List getCourseList(String sql){
-		List al = new ArrayList();							//´´½¨·µ»ØList¶ÔÏó			
+		List al = new ArrayList();							//åˆ›å»ºè¿”å›Listå¯¹è±¡			
 		try{
 			sql = new String(sql.getBytes(),"iso-8859-1");
-			rl = jt.queryForList(sql);				//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){						//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){		//±éÀú½á¹û
-					Map map=(Map)rl.get(i);				//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					CourseItem ci = new CourseItem();		//´´½¨·µ»ØCourseItem¶ÔÏó
-					ci.setUid(map.get("UID").toString());	//ÉèÖÃUser¶ÔÏóµÄuidÊôĞÔ
+			rl = jt.queryForList(sql);				//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){						//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){		//éå†ç»“æœ
+					Map map=(Map)rl.get(i);				//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					CourseItem ci = new CourseItem();		//åˆ›å»ºè¿”å›CourseItemå¯¹è±¡
+					ci.setUid(map.get("UID").toString());	//è®¾ç½®Userå¯¹è±¡çš„uidå±æ€§
 					ci.setTgid(map.get("TGID").toString());
 					ci.setTgname(new String(map.get("TGName").toString().getBytes("iso8859-1"),"gbk"));	
 					ci.setTdetail(new String(map.get("TDetail").toString().getBytes("iso8859-1"),"gbk"));	
@@ -287,43 +287,43 @@ public class DBUtil{
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
 		return al;
 	}
 	public List getQuestionList(String sql){
-		List al = new ArrayList();							//´´½¨·µ»ØList¶ÔÏó
+		List al = new ArrayList();							//åˆ›å»ºè¿”å›Listå¯¹è±¡
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");	//¶ÔSQL½øĞĞ×ªÂë
-			rl = jt.queryForList(sql);						//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){								//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){				//±éÀú½á¹û
-					Map map=(Map)rl.get(i);					//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					TopicItem ti = new TopicItem();			//´´½¨Ò»¸öTopicItem¶ÔÏó
-					ti.setTid(map.get("TID").toString());	//ÉèÖÃTopicItem¶ÔÏóµÄÌû×ÓÖ÷¼üÊôĞÔÖµ
+			sql = new String(sql.getBytes(),"iso8859-1");	//å¯¹SQLè¿›è¡Œè½¬ç 
+			rl = jt.queryForList(sql);						//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){								//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){				//éå†ç»“æœ
+					Map map=(Map)rl.get(i);					//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					TopicItem ti = new TopicItem();			//åˆ›å»ºä¸€ä¸ªTopicItemå¯¹è±¡
+					ti.setTid(map.get("TID").toString());	//è®¾ç½®TopicItemå¯¹è±¡çš„å¸–å­ä¸»é”®å±æ€§å€¼
 					ti.setFtr(new String(map.get("UName").toString().getBytes("iso8859-1"),"gbk"));
 					ti.setTitle(new String(map.get("TTitle").toString().getBytes("iso8859-1"),"gbk"));
-					ti.setFtsj(map.get("TDate").toString().substring(0,19));	//ÉèÖÃ·¢ÌûÊ±¼äÊôĞÔÖµ
+					ti.setFtsj(map.get("TDate").toString().substring(0,19));	//è®¾ç½®å‘å¸–æ—¶é—´å±æ€§å€¼
 					ti.setGname(new String(map.get("TGName").toString().getBytes("iso8859-1"),"gbk"));
 					al.add(ti);
 				}
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
 		return al;
 	}
 	public List getRevertList(String sql){
-			List al = new ArrayList();							//´´½¨·µ»ØList¶ÔÏó
+			List al = new ArrayList();							//åˆ›å»ºè¿”å›Listå¯¹è±¡
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");	//¶ÔSQL½øĞĞ×ªÂë
-			rl = jt.queryForList(sql);						//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){								//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){				//±éÀú½á¹û
-					Map map=(Map)rl.get(i);					//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					RevertItem ri = new RevertItem();		//´´½¨Ò»¸öRevertItem¶ÔÏó
-					ri.setRid(map.get("RID").toString());	//ÉèÖÃRevertItem¶ÔÏóµÄÌû×ÓÖ÷¼üÊôĞÔÖµ
+			sql = new String(sql.getBytes(),"iso8859-1");	//å¯¹SQLè¿›è¡Œè½¬ç 
+			rl = jt.queryForList(sql);						//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){								//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){				//éå†ç»“æœ
+					Map map=(Map)rl.get(i);					//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					RevertItem ri = new RevertItem();		//åˆ›å»ºä¸€ä¸ªRevertItemå¯¹è±¡
+					ri.setRid(map.get("RID").toString());	//è®¾ç½®RevertItemå¯¹è±¡çš„å¸–å­ä¸»é”®å±æ€§å€¼
 					ri.setUname(new String(map.get("UName").toString().getBytes("iso8859-1"),"gbk"));
 					String nr = map.get("RContent").toString();
 					if(nr.length()>40){
@@ -331,24 +331,24 @@ public class DBUtil{
 						nr = nr + "......";
 					}
 					ri.setNr(new String(nr.getBytes("iso8859-1"),"gbk"));
-					ri.setRdate(map.get("RDate").toString().substring(0,19));	//ÉèÖÃ·¢ÌûÊ±¼äÊôĞÔÖµ
+					ri.setRdate(map.get("RDate").toString().substring(0,19));	//è®¾ç½®å‘å¸–æ—¶é—´å±æ€§å€¼
 					al.add(ri);
 				}
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
 		return al;
 	}
 	public CourseItem getCourseInfo(String sql){
-		CourseItem ci = new CourseItem();							//´´½¨·µ»ØCourseItem¶ÔÏó	
+		CourseItem ci = new CourseItem();							//åˆ›å»ºè¿”å›CourseItemå¯¹è±¡	
 		try{
-			rl = jt.queryForList(sql);				//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){						//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){		//±éÀú½á¹û
-					Map map=(Map)rl.get(i);				//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					ci.setUid(map.get("UID").toString());	//ÉèÖÃUser¶ÔÏóµÄuidÊôĞÔ
+			rl = jt.queryForList(sql);				//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){						//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){		//éå†ç»“æœ
+					Map map=(Map)rl.get(i);				//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					ci.setUid(map.get("UID").toString());	//è®¾ç½®Userå¯¹è±¡çš„uidå±æ€§
 					ci.setTgid(map.get("TGID").toString());
 					ci.setTgname(new String(map.get("TGName").toString().getBytes("iso8859-1"),"gbk"));	
 					ci.setTdetail(new String(map.get("TDetail").toString().getBytes("iso8859-1"),"gbk"));	
@@ -357,62 +357,62 @@ public class DBUtil{
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
 		return ci;
 	}
 	public Map getCourse(String sql){
-		Map map = new HashMap();							//´´½¨·µ»ØMap¶ÔÏó		
+		Map map = new HashMap();							//åˆ›å»ºè¿”å›Mapå¯¹è±¡		
 		System.out.println(sql);
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");		//¶ÔSQL½øĞĞ×ªÂë
-			rl = jt.queryForList(sql);				//ËÑË÷µÃµ½½á¹û
-			if(rl.size()!=0){						//½á¹û²»Îª¿ÕµÄÇé¿ö
-				for(int i=0;i<rl.size();i++){		//±éÀú½á¹û
-					Map mp=(Map)rl.get(i);			//½á¹ûListÖĞÃ¿Ò»ĞĞÎªÒ»¸öLinkedHashMap
-					String tgid = 					//µÃµ½¿Î³ÌID
+			sql = new String(sql.getBytes(),"iso8859-1");		//å¯¹SQLè¿›è¡Œè½¬ç 
+			rl = jt.queryForList(sql);				//æœç´¢å¾—åˆ°ç»“æœ
+			if(rl.size()!=0){						//ç»“æœä¸ä¸ºç©ºçš„æƒ…å†µ
+				for(int i=0;i<rl.size();i++){		//éå†ç»“æœ
+					Map mp=(Map)rl.get(i);			//ç»“æœListä¸­æ¯ä¸€è¡Œä¸ºä¸€ä¸ªLinkedHashMap
+					String tgid = 					//å¾—åˆ°è¯¾ç¨‹ID
 						mp.get("tgid").toString();	
-					String gname = 					//µÃµ½¿Î³ÌÃû³Æ²¢½øĞĞ×ªÂë
+					String gname = 					//å¾—åˆ°è¯¾ç¨‹åç§°å¹¶è¿›è¡Œè½¬ç 
 						new String(mp.get("gname").toString().getBytes("iso8859-1"),"gbk");
 					map.put(tgid,gname);					
 				}
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();										//²¶»ñÒì³£²¢´òÓ¡
+			e.printStackTrace();										//æ•è·å¼‚å¸¸å¹¶æ‰“å°
 		}
-		return map;														//·µ»Ø½á¹û		
+		return map;														//è¿”å›ç»“æœ		
 	}
 	public String getStringInfo(String sql){
-		String info = null;										//ÉùÃ÷·µ»Ø×Ö·û´®ÒıÓÃ
+		String info = null;										//å£°æ˜è¿”å›å­—ç¬¦ä¸²å¼•ç”¨
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");		//¶ÔSQLÓï¾ä×ªÂë
-			info = (String)jt.queryForObject(sql,String.class);	//Ö´ĞĞ²éÑ¯
-			info = new String(info.getBytes("iso8859-1"),"gbk");//¶Ô²éÑ¯µÄ×Ö·û´®×ªÂë
+			sql = new String(sql.getBytes(),"iso8859-1");		//å¯¹SQLè¯­å¥è½¬ç 
+			info = (String)jt.queryForObject(sql,String.class);	//æ‰§è¡ŒæŸ¥è¯¢
+			info = new String(info.getBytes("iso8859-1"),"gbk");//å¯¹æŸ¥è¯¢çš„å­—ç¬¦ä¸²è½¬ç 
 		}
 		catch(Exception e){
-			info = null;										//ÓĞÒì³£·¢ÉúÔòinfoÖÃÎªnull
+			info = null;										//æœ‰å¼‚å¸¸å‘ç”Ÿåˆ™infoç½®ä¸ºnull
 		}
-		return info;											//·µ»Ø²éÑ¯½á¹û
+		return info;											//è¿”å›æŸ¥è¯¢ç»“æœ
 	}
 	public boolean isExist(String sql){
 		System.out.println("isExist "+sql);
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");	//¶ÔSQL½øĞĞ×ªÂë
+			sql = new String(sql.getBytes(),"iso8859-1");	//å¯¹SQLè¿›è¡Œè½¬ç 
 		}
 		catch(Exception e){
-			e.printStackTrace();							//´òÓ¡Òì³£ĞÅÏ¢
+			e.printStackTrace();							//æ‰“å°å¼‚å¸¸ä¿¡æ¯
 		}
 		boolean result = false;
-		rl = jt.queryForList(sql);							//Ö´ĞĞ²éÑ¯
-        if(rl.size()!=0){									//ÅĞ¶Ï²éÑ¯½á¹û
-        	result = true;									//Èç¹û´æÔÚÓÃ»§ÔòÖµ±êÖ¾Î»Îªtrue
+		rl = jt.queryForList(sql);							//æ‰§è¡ŒæŸ¥è¯¢
+        if(rl.size()!=0){									//åˆ¤æ–­æŸ¥è¯¢ç»“æœ
+        	result = true;									//å¦‚æœå­˜åœ¨ç”¨æˆ·åˆ™å€¼æ ‡å¿—ä½ä¸ºtrue
         }
-		return result;										//·µ»Ø±êÖ¾Î»
+		return result;										//è¿”å›æ ‡å¿—ä½
 	}
-	public boolean update(Vector<String> v){				//ÊÂÎñ´¦Àí
-		boolean flag = true;													//¸üĞÂ½á¹û±êÖ¾
-		dtm = new DataSourceTransactionManager(ds);		//µÃµ½ÊÂÎñ¹ÜÀí
+	public boolean update(Vector<String> v){				//äº‹åŠ¡å¤„ç†
+		boolean flag = true;													//æ›´æ–°ç»“æœæ ‡å¿—
+		dtm = new DataSourceTransactionManager(ds);		//å¾—åˆ°äº‹åŠ¡ç®¡ç†
 		dtd = new DefaultTransactionDefinition();
         dtd.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         TransactionStatus ts = dtm.getTransaction(dtd);
@@ -420,30 +420,30 @@ public class DBUtil{
         	for(int i=0;i<v.size();i++){
         		System.out.println("["+i+"]"+v.get(i));
         		sql = new String(v.get(i).getBytes(),"iso8859-1");
-        		jt.update(sql);								//Ö´ĞĞ¸üĞÂ
+        		jt.update(sql);								//æ‰§è¡Œæ›´æ–°
         	}
-        	dtm.commit(ts);									//ÎŞÒì³£·¢ÉúÔòÌá½»ÊÂÎñ
+        	dtm.commit(ts);									//æ— å¼‚å¸¸å‘ç”Ÿåˆ™æäº¤äº‹åŠ¡
        }
        catch(Exception e){
-           dtm.rollback(ts);								//·¢ÉúÒì³££¬½øĞĞ»Ø¹ö
-           flag = false;									//¸üĞÂ±êÖ¾ÉèÖÃÎªfalse
+           dtm.rollback(ts);								//å‘ç”Ÿå¼‚å¸¸ï¼Œè¿›è¡Œå›æ»š
+           flag = false;									//æ›´æ–°æ ‡å¿—è®¾ç½®ä¸ºfalse
            e.printStackTrace();
        }
 		return flag;
 	}
-	public boolean update(String sql){							//Ö´ĞĞµ¥¸öSQLÓï¾äµÄ·½·¨
+	public boolean update(String sql){							//æ‰§è¡Œå•ä¸ªSQLè¯­å¥çš„æ–¹æ³•
 		boolean flag = false;
 		try{
-			sql = new String(sql.getBytes(),"iso8859-1");//¶ÔSQLÓï¾ä½øĞĞ×ªÂë
-			int result = jt.update(sql);		//Ö´ĞĞ¸üĞÂµÃµ½¸üĞÂ¼ÇÂ¼ÌõÊı
-			if(result>=0){						//¸üĞÂ¼ÇÂ¼ÌõÊı´óÓÚÒ»Ê±
-				flag = true;					//½«¸üĞÂ½á¹û±êÖ¾ÖÃÎªtrue
+			sql = new String(sql.getBytes(),"iso8859-1");//å¯¹SQLè¯­å¥è¿›è¡Œè½¬ç 
+			int result = jt.update(sql);		//æ‰§è¡Œæ›´æ–°å¾—åˆ°æ›´æ–°è®°å½•æ¡æ•°
+			if(result>=0){						//æ›´æ–°è®°å½•æ¡æ•°å¤§äºä¸€æ—¶
+				flag = true;					//å°†æ›´æ–°ç»“æœæ ‡å¿—ç½®ä¸ºtrue
 			}
 		}
-		catch(Exception e){					//²¶»ñÒì³£
-			flag = false;					//¸üĞÂÊ§°Ü
-			e.printStackTrace();			//´òÓ¡Òì³£ĞÅÏ¢
+		catch(Exception e){					//æ•è·å¼‚å¸¸
+			flag = false;					//æ›´æ–°å¤±è´¥
+			e.printStackTrace();			//æ‰“å°å¼‚å¸¸ä¿¡æ¯
 		}
-		return flag;						//·µ»Ø¸üĞÂ½á¹û±êÖ¾Î»
+		return flag;						//è¿”å›æ›´æ–°ç»“æœæ ‡å¿—ä½
 	}
 }
