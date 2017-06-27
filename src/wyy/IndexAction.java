@@ -3,18 +3,18 @@ import java.util.List;
 import com.opensymphony.xwork2.*;
 import org.springframework.jdbc.core.*;
 public class IndexAction extends FenYeAction{
-	private String condition;	//²éÕÒÌõ¼ş
-	private String key;			//²éÕÒ¹Ø¼ü×Ö
-	private List content;		//Ê×Ò³ÏÔÊ¾ÄÚÈİ
+	private String condition;	//æŸ¥æ‰¾æ¡ä»¶
+	private String key;			//æŸ¥æ‰¾å…³é”®å­—
+	private List content;		//é¦–é¡µæ˜¾ç¤ºå†…å®¹
 	public void setCondition(String condition){
-		this.condition = condition;				//ÉèÖÃ²éÑ¯Ìõ¼şÊôĞÔÖµ
-		this.setCurPage(1);						//ÉèÖÃµ±Ç°ÏÔÊ¾µÚÒ»Ò³
-		getSession().put("condition",condition);//½«²éÑ¯Ìõ¼ş·Å½øsession
+		this.condition = condition;				//è®¾ç½®æŸ¥è¯¢æ¡ä»¶å±æ€§å€¼
+		this.setCurPage(1);						//è®¾ç½®å½“å‰æ˜¾ç¤ºç¬¬ä¸€é¡µ
+		getSession().put("condition",condition);//å°†æŸ¥è¯¢æ¡ä»¶æ”¾è¿›session
 	}
 	public void setKey(String key){				
-		this.key = key;							//ÉèÖÃ²éÑ¯¹Ø¼ü×ÖµÄÊôĞÔÖµ
-		this.setCurPage(1);						//ÉèÖÃÏÔÊ¾µÚÒ»Ò³
-		getSession().put("key",key);			//½«²éÑ¯¹Ø¼ü×Ö·Å½øsession
+		this.key = key;							//è®¾ç½®æŸ¥è¯¢å…³é”®å­—çš„å±æ€§å€¼
+		this.setCurPage(1);						//è®¾ç½®æ˜¾ç¤ºç¬¬ä¸€é¡µ
+		getSession().put("key",key);			//å°†æŸ¥è¯¢å…³é”®å­—æ”¾è¿›session
 	}
 	@Override
 	public String getSql(){
@@ -33,29 +33,29 @@ public class IndexAction extends FenYeAction{
 			",count(RID) revert from DY_Revert group by TID)c,"+
 			"DY_Revert dra where c.RID=dra.RID)b on dtb.TID=b.tid"+
 			" order by gid asc,lastTime desc)d where du.UID=d.UID"+
-			")a on dtg.TGID=a.gid";							//ËÑË÷³öÊ×Ò³ÏÔÊ¾ÄÚÈİµÄSQLÓï¾ä
-		String role = (String)getSession().get("role");		//µÃµ½µÇÂ½ÈËµÄ½ÇÉ«
-		String uid = (String)getSession().get("uid");		//µÃµ½µÇÂ¼ÈËµÄID
-		if("all".equals(actionStr)){						//ÏÔÊ¾ËùÓĞ¿Î³ÌµÄÇëÇó
-			getSession().put("key","");						//ÉèÖÃËÑË÷¹Ø¼ü×ÖÎª¿Õ
+			")a on dtg.TGID=a.gid";							//æœç´¢å‡ºé¦–é¡µæ˜¾ç¤ºå†…å®¹çš„SQLè¯­å¥
+		String role = (String)getSession().get("role");		//å¾—åˆ°ç™»é™†äººçš„è§’è‰²
+		String uid = (String)getSession().get("uid");		//å¾—åˆ°ç™»å½•äººçš„ID
+		if("all".equals(actionStr)){						//æ˜¾ç¤ºæ‰€æœ‰è¯¾ç¨‹çš„è¯·æ±‚
+			getSession().put("key","");						//è®¾ç½®æœç´¢å…³é”®å­—ä¸ºç©º
 		}
 		if(getSession().get("condition")!=null){
 			sql = sql+" where "+getSession().get("condition")+
-				" like '%"+getSession().get("key")+"%'";	//Æ´×°ËÑË÷SQLÓï¾ä
+				" like '%"+getSession().get("key")+"%'";	//æ‹¼è£…æœç´¢SQLè¯­å¥
 		}
 		sql = sql+" group by dtg.TGID";						
-		if("1".equals(role)){								//µÇÂ½ÈËÊÇÀÏÊ¦
+		if("1".equals(role)){								//ç™»é™†äººæ˜¯è€å¸ˆ
 			sql = "select * from ("+sql+")f,DY_TU dtu where f.gid"+
-				"=dtu.TGID and dtu.UID="+uid;				//ËÑ³öÀÏÊ¦µÄ¿Î³Ì
+				"=dtu.TGID and dtu.UID="+uid;				//æœå‡ºè€å¸ˆçš„è¯¾ç¨‹
 		}	
-		return sql;											//·µ»ØSQL×Ö·û´®
+		return sql;											//è¿”å›SQLå­—ç¬¦ä¸²
 	}
 	public List getIndexList(){
-		return content;										//ÏÔÊ¾ÄÚÈİµÄgetter·½·¨
+		return content;										//æ˜¾ç¤ºå†…å®¹çš„getteræ–¹æ³•
 	}
 	@Override
 	public String execute()throws Exception{
-		content = dbu.getIndexContent(getFenYe());			//²éÑ¯Êı¾İ¿âµÃµ½Ê×Ò³ÏÔÊ¾ÄÚÈİ
+		content = dbu.getIndexContent(getFenYe());			//æŸ¥è¯¢æ•°æ®åº“å¾—åˆ°é¦–é¡µæ˜¾ç¤ºå†…å®¹
 		return SUCCESS;
 	}
 }

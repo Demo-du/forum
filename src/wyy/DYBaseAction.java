@@ -2,44 +2,44 @@ package wyy;
 import java.util.Map;
 import com.opensymphony.xwork2.*;
 public class DYBaseAction extends ActionSupport{
-	protected DBUtil dbu;						//ÉùÃ÷DBUtil¶ÔÏóÒıÓÃ
-	protected String message;					//·µ»ØĞÅÏ¢
-	protected String url;						//ÒªÌø×ªµ½µÄURL
-    protected  String actionStr;				//¶¯×÷±êÖ¾
+	protected DBUtil dbu;						//å£°æ˜DBUtilå¯¹è±¡å¼•ç”¨
+	protected String message;					//è¿”å›ä¿¡æ¯
+	protected String url;						//è¦è·³è½¬åˆ°çš„URL
+    protected  String actionStr;				//åŠ¨ä½œæ ‡å¿—
    
     public void setDbu(DBUtil dbu){
-    	this.dbu = dbu;							//dbuµÄsetter·½·¨
+    	this.dbu = dbu;							//dbuçš„setteræ–¹æ³•
     }
-	public Map getSession(){					//µÃµ½StrutsÀïÄ£ÄâHttpSessionµÄÊµÀı
+	public Map getSession(){					//å¾—åˆ°Strutsé‡Œæ¨¡æ‹ŸHttpSessionçš„å®ä¾‹
 		return ActionContext.getContext().getSession();
 	}
 	public String getMessage(){
-		return message;							//messageÊôĞÔµÄgetter·½·¨
+		return message;							//messageå±æ€§çš„getteræ–¹æ³•
 	}
-	public String getUrl(){						//urlÊôĞÔµÄgetter·½·¨
+	public String getUrl(){						//urlå±æ€§çš„getteræ–¹æ³•
 		return url;
 	}
-	public String getActionStr() {				//actionStrµÄgetter·½·¨
+	public String getActionStr() {				//actionStrçš„getteræ–¹æ³•
 		return actionStr;
 	}
 	public void setActionStr(String actionStr) {
-		this.actionStr = actionStr;				//actionStrµÄsetter·½·¨
+		this.actionStr = actionStr;				//actionStrçš„setteræ–¹æ³•
 	}
     @Override
     public String execute()throws Exception{
     	String result = SUCCESS;
-    	if("logout".equals(actionStr)){						//×¢Ïú¶¯×÷    		
-    		String role = (String)getSession().get("role");	//µÃµ½ÓÃ»§½ÇÉ«
-    		getSession().clear();							//½«sessionÇå¿Õ
+    	if("logout".equals(actionStr)){						//æ³¨é”€åŠ¨ä½œ    		
+    		String role = (String)getSession().get("role");	//å¾—åˆ°ç”¨æˆ·è§’è‰²
+    		getSession().clear();							//å°†sessionæ¸…ç©º
     		System.out.println("role:=="+role);
-    		if("0".equals(role)||"1".equals(role)){			//Èç¹ûµÇÂ½µÄÊÇÀÏÊ¦»òÕßÊÇÑ§Éú
+    		if("0".equals(role)||"1".equals(role)){			//å¦‚æœç™»é™†çš„æ˜¯è€å¸ˆæˆ–è€…æ˜¯å­¦ç”Ÿ
     			url = "IndexAction.action";
-    			message = "ÍË³ö³É¹¦£¬ÏÖÔÚ½«Ìø×ªµ½Ö÷Ò³";	   //¸ø³öÌáÊ¾ÏûÏ¢
+    			message = "é€€å‡ºæˆåŠŸï¼Œç°åœ¨å°†è·³è½¬åˆ°ä¸»é¡µ";	   //ç»™å‡ºæç¤ºæ¶ˆæ¯
     		}
-    		else{											//µÇÂ½µÄÈËÊÇ¹ÜÀíÔ±
+    		else{											//ç™»é™†çš„äººæ˜¯ç®¡ç†å‘˜
     			url = "adminLogin.jsp";
-    			message = "ÍË³ö³É¹¦£¬ÏÖÔÚ½«ÒªÌø×ªµ½µÇÂ½Ò³"; //¸ø³öÌáÊ¾ÏûÏ¢
-    			result = LOGIN;								//·µ»ØLOGINÊÓÍ¼
+    			message = "é€€å‡ºæˆåŠŸï¼Œç°åœ¨å°†è¦è·³è½¬åˆ°ç™»é™†é¡µ"; //ç»™å‡ºæç¤ºæ¶ˆæ¯
+    			result = LOGIN;								//è¿”å›LOGINè§†å›¾
     		}
     	}
     	return result;
