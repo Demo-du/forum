@@ -2,10 +2,10 @@ package wyy;
 import java.net.*;
 import com.opensymphony.xwork2.*;
 public class UnameUniqueAction extends DYBaseAction{
-    protected String uname;						//ÒªÑéÖ¤µÄÓÃ»§Ãû
-    protected String pwd;						//ÓÃ»§×¢²áµÄÃÜÂë
-    protected String sql;						//ÉùÃ÷SQLÓï¾äÒıÓÃ
-    protected String valcode;					//ÓÃ»§ÊäÈëµÄÑéÖ¤Âë	
+    protected String uname;						//è¦éªŒè¯çš„ç”¨æˆ·å
+    protected String pwd;						//ç”¨æˆ·æ³¨å†Œçš„å¯†ç 
+    protected String sql;						//å£°æ˜SQLè¯­å¥å¼•ç”¨
+    protected String valcode;					//ç”¨æˆ·è¾“å…¥çš„éªŒè¯ç 	
     public void setUname(String uname){
     	try{
     		this.uname = URLDecoder.decode(uname,"utf-8");
@@ -18,19 +18,19 @@ public class UnameUniqueAction extends DYBaseAction{
     	return uname;
     }
 	public String getValcode(){
-		return valcode;							//ÑéÖ¤ÂëÊôĞÔµÄgetter·½·¨
+		return valcode;							//éªŒè¯ç å±æ€§çš„getteræ–¹æ³•
 	}
-	public void setValcode(String valcode) {	//ÑéÖ¤ÂëÊôĞÔµÄsetter·½·¨
-		this.valcode = valcode.toUpperCase();	//²¢×ª´óĞ´
+	public void setValcode(String valcode) {	//éªŒè¯ç å±æ€§çš„setteræ–¹æ³•
+		this.valcode = valcode.toUpperCase();	//å¹¶è½¬å¤§å†™
 	}
 	public String getPwd(){
-		return pwd;							//ÃÜÂëÊôĞÔµÄgetter·½·¨
+		return pwd;							//å¯†ç å±æ€§çš„getteræ–¹æ³•
 	}
 	public void setPwd(String pwd) {
-		this.pwd = pwd;						//ÃÜÂëÊôĞÔµÄset·½·¨
+		this.pwd = pwd;						//å¯†ç å±æ€§çš„setæ–¹æ³•
 	}
-    public boolean getFlag(){									//·µ»ØÊÇ·ñ¿É×¢²áµÄ±êÖ¾Î»
-    	sql = "select UID from DY_User where UName='"+uname+"'";//trueÎªÓÃ»§²»´æÔÚ
+    public boolean getFlag(){									//è¿”å›æ˜¯å¦å¯æ³¨å†Œçš„æ ‡å¿—ä½
+    	sql = "select UID from DY_User where UName='"+uname+"'";//trueä¸ºç”¨æˆ·ä¸å­˜åœ¨
     	return dbu.isExist(sql);
     }
     @Override

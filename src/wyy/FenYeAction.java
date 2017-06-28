@@ -2,55 +2,55 @@ package wyy;
 import java.util.*;
 import com.opensymphony.xwork2.*;
 public class FenYeAction extends DYBaseAction{
-	protected int curPage = 1;		//µ±Ç°Ò³Âë
-	protected int span = 5;			//Ã¿Ò³ÏÔÊ¾¼ÇÂ¼ÌõÊı
-    protected String sql;			//SQLÓï¾äÒıÓÃ
-    protected String tempSql;		//ÁÙÊ±SQLÓï¾äÒıÓÃ
+	protected int curPage = 1;		//å½“å‰é¡µç 
+	protected int span = 5;			//æ¯é¡µæ˜¾ç¤ºè®°å½•æ¡æ•°
+    protected String sql;			//SQLè¯­å¥å¼•ç”¨
+    protected String tempSql;		//ä¸´æ—¶SQLè¯­å¥å¼•ç”¨
 	public String getSql(){
-		return sql;					//·µ»ØSQLÓï¾ä
+		return sql;					//è¿”å›SQLè¯­å¥
 	}
 	public String getFenYe(){
 		Integer a = (Integer)getSession().get("curPage");
 		Integer b = (Integer)getSession().get("span");
-		if(a!=null){					//Èç¹ûµ±Ç°Ò³²»Îª¿Õ
-			curPage = a;				//ÔòcurPageµÈÓÚµ±Ç°Ò³µÄÖµ
+		if(a!=null){					//å¦‚æœå½“å‰é¡µä¸ä¸ºç©º
+			curPage = a;				//åˆ™curPageç­‰äºå½“å‰é¡µçš„å€¼
 		}
-		if(b!=null){					//Èç¹ûÃ¿Ò³ÏÔÊ¾¼ÇÂ¼ÌõÊı²»Îª¿Õ
-			span = b;					//ÔòspanµÈÓÚÃ¿Ò³ÏÔÊ¾¼ÇÂ¼ÌõÊı
+		if(b!=null){					//å¦‚æœæ¯é¡µæ˜¾ç¤ºè®°å½•æ¡æ•°ä¸ä¸ºç©º
+			span = b;					//åˆ™spanç­‰äºæ¯é¡µæ˜¾ç¤ºè®°å½•æ¡æ•°
 		}
-		int startRow = (curPage-1)*span;//¼ÆËãÒª¶ÁÈ¡¼ÇÂ¼µÄÆğÊ¼ĞĞ
+		int startRow = (curPage-1)*span;//è®¡ç®—è¦è¯»å–è®°å½•çš„èµ·å§‹è¡Œ
 		String fenye = "select * from ("+getSql()+")a limit "+
 										startRow+","+span;
 		return fenye;
 	}
 	public int getTotal(){
-		return dbu.getTotal(getSql(),getSpan());//Ö´ĞĞ²éÑ¯µÃµ½×ÜÒ³Êı
+		return dbu.getTotal(getSql(),getSpan());//æ‰§è¡ŒæŸ¥è¯¢å¾—åˆ°æ€»é¡µæ•°
 	}
 	public Map getPageList(){
-		Map map=new HashMap();							//´´½¨Map¶ÔÏó
-		int max=getTotal();								//µÃµ½×î´óÒ³Êı
-		for(int i=1;i<=max;i++){						//Ñ­»·Éú³ÉMapÖĞµÄ¼üºÍÖµ
-			map.put(i,"µÚ"+i+"Ò³");					  //½«¼üºÍÖµ·¿¼äMapÖĞ
+		Map map=new HashMap();							//åˆ›å»ºMapå¯¹è±¡
+		int max=getTotal();								//å¾—åˆ°æœ€å¤§é¡µæ•°
+		for(int i=1;i<=max;i++){						//å¾ªç¯ç”ŸæˆMapä¸­çš„é”®å’Œå€¼
+			map.put(i,"ç¬¬"+i+"é¡µ");					  //å°†é”®å’Œå€¼æˆ¿é—´Mapä¸­
 		}
-		return map;						//·µ»ØMap¶ÔÏó
+		return map;						//è¿”å›Mapå¯¹è±¡
 	}
-	public int getCurPage() {			//curPageµÄget·½·¨
-		return curPage;					//·µ»ØcurPageµÄÖµ
+	public int getCurPage() {			//curPageçš„getæ–¹æ³•
+		return curPage;					//è¿”å›curPageçš„å€¼
 	}
-	public void setCurPage(int curPage){//curPageµÄset·½·¨
-		this.curPage = curPage;			//ÉèÖÃcurPageµÄÖµ
+	public void setCurPage(int curPage){//curPageçš„setæ–¹æ³•
+		this.curPage = curPage;			//è®¾ç½®curPageçš„å€¼
 		getSession().put("curPage",curPage);
 	}
-	public int getSpan() {				//spanµÄget·½·¨
-		return span;					//·µ»ØspanµÄÖµ
+	public int getSpan() {				//spançš„getæ–¹æ³•
+		return span;					//è¿”å›spançš„å€¼
 	}
-	public void setSpan(int span) {		//spanµÄset·½·¨
-		this.span = span;				//ÉèÖÃspanµÄÖµ
-		this.setCurPage(1);				//ÉèÖÃµ±Ç°ÏÔÊ¾µÚÒ»Ò³
+	public void setSpan(int span) {		//spançš„setæ–¹æ³•
+		this.span = span;				//è®¾ç½®spançš„å€¼
+		this.setCurPage(1);				//è®¾ç½®å½“å‰æ˜¾ç¤ºç¬¬ä¸€é¡µ
 		getSession().put("span",span);
 	}
 	@Override
-	public String execute()throws Exception{	//execute·½·¨
-		return SUCCESS;							//·µ»ØSUCCESS
+	public String execute()throws Exception{	//executeæ–¹æ³•
+		return SUCCESS;							//è¿”å›SUCCESS
 	}
 }

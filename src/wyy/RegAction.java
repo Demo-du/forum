@@ -2,46 +2,46 @@ package wyy;
 import com.opensymphony.xwork2.*;
 import org.springframework.jdbc.core.*;
 public class RegAction extends UnameUniqueAction {
-	private String gender;					//ÓÃ»§ĞÔ±ğ
-	private String email;					//µç×ÓÓÊ¼ş
+	private String gender;					//ç”¨æˆ·æ€§åˆ«
+	private String email;					//ç”µå­é‚®ä»¶
 	public String getGender() {
-		return gender;						//ĞÔ±ğÊôĞÔµÄget·½·¨
+		return gender;						//æ€§åˆ«å±æ€§çš„getæ–¹æ³•
 	}
 	public void setGender(String gender) {
-		this.gender = gender;				//ĞÔ±ğÊôĞÔµÄset·½·¨
+		this.gender = gender;				//æ€§åˆ«å±æ€§çš„setæ–¹æ³•
 	}
 	public String getEmail(){
-		return email;						//µç×ÓÓÊ¼şµÄget·½·¨
+		return email;						//ç”µå­é‚®ä»¶çš„getæ–¹æ³•
 	}
 	public void setEmail(String email) {
-		this.email = email;					//µç×ÓÓÊ¼şÊôĞÔµÄset·½·¨
+		this.email = email;					//ç”µå­é‚®ä»¶å±æ€§çš„setæ–¹æ³•
 	}
 	public String execute() throws Exception{
-		String randNum = (String)getSession().get("randNum");		//µÃµ½´æÔÚSessionÖĞµÄÑéÖ¤Âë
-		randNum = randNum.toUpperCase();							//½«ÑéÖ¤Âë×ª´óĞ´
-		if(!randNum.equals(valcode)){								//Èç¹ûÑéÖ¤ÂëÏàÍ¬
-			message = "ÑéÖ¤ÂëÊäÈë´íÎó£¬×¢²áÊ§°Ü£¬ÇëÖØĞÂÊäÈë¡£ÏÖ"+
-											"ÔÚ½«ÒªÌø×ªµ½×¢²áÒ³Ãæ"; //¸ø³öÌáÊ¾ĞÅÏ¢
+		String randNum = (String)getSession().get("randNum");		//å¾—åˆ°å­˜åœ¨Sessionä¸­çš„éªŒè¯ç 
+		randNum = randNum.toUpperCase();							//å°†éªŒè¯ç è½¬å¤§å†™
+		if(!randNum.equals(valcode)){								//å¦‚æœéªŒè¯ç ç›¸åŒ
+			message = "éªŒè¯ç è¾“å…¥é”™è¯¯ï¼Œæ³¨å†Œå¤±è´¥ï¼Œè¯·é‡æ–°è¾“å…¥ã€‚ç°"+
+											"åœ¨å°†è¦è·³è½¬åˆ°æ³¨å†Œé¡µé¢"; //ç»™å‡ºæç¤ºä¿¡æ¯
 			url = "reg.jsp";
 			return SUCCESS;
 		}
-		if(this.getFlag()){											  //×¢²áÃûÒÑ¾­´æÔÚ
-			message = "ÄúËù×¢²áµÄÓÃ»§ÃûÒÑ¾­´æÔÚ£¬ÇëÖØĞÂÊäÈë¡£ÏÖ"+
-										   "ÔÚ½«ÒªÌø×ªµ½×¢²áÒ³Ãæ";	//¸ø³öÌáÊ¾ĞÅÏ¢
+		if(this.getFlag()){											  //æ³¨å†Œåå·²ç»å­˜åœ¨
+			message = "æ‚¨æ‰€æ³¨å†Œçš„ç”¨æˆ·åå·²ç»å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥ã€‚ç°"+
+										   "åœ¨å°†è¦è·³è½¬åˆ°æ³¨å†Œé¡µé¢";	//ç»™å‡ºæç¤ºä¿¡æ¯
 			url = "reg.jsp";
 			return SUCCESS;
 		}
 		sql = "insert into DY_USer(UName,UPwd,UGender,UEmail,"+
 		  	  "URegDate,ULastLogin,ULastEmit) values('"+uname+"','"+
-		  	  pwd+"','"+gender+"','"+email+"',now(),now(),now())";	 //²åÈëĞÂÓÃ»§µÄSQL
+		  	  pwd+"','"+gender+"','"+email+"',now(),now(),now())";	 //æ’å…¥æ–°ç”¨æˆ·çš„SQL
 		if(dbu.update(sql)){
-			message = "¹§Ï²Äú£¬×¢²á³É¹¦£¬»¶Ó­À´µ½¶«³ÇÔÚÏß¡£"+
-										"ÏÖÔÚ½«ÒªÌø×ªµ½Ö÷Ò³";		//×¢²á³É¹¦µÄÌáÊ¾ÏûÏ¢
-			url = "IndexAction.action?actionStr=all";				 //Ìø×ªµ½Ö÷Ò³
+			message = "æ­å–œæ‚¨ï¼Œæ³¨å†ŒæˆåŠŸï¼Œæ¬¢è¿æ¥åˆ°å—äº¬èˆªç©ºèˆªå¤©å¤§å­¦åœ¨çº¿ã€‚"+
+										"ç°åœ¨å°†è¦è·³è½¬åˆ°ä¸»é¡µ";		//æ³¨å†ŒæˆåŠŸçš„æç¤ºæ¶ˆæ¯
+			url = "IndexAction.action?actionStr=all";				 //è·³è½¬åˆ°ä¸»é¡µ
 		}
 		else{
-			message = "Î´Öª´íÎó£¬×¢²áÊ§°Ü¡£ÏÖÔÚ½«ÒªÌø×ªµ½×¢²áÒ³Ãæ";	//×¢²áÊ§°ÜĞÅÏ¢
-			url = "reg.jsp";										 //·µ»Ø×¢²áÒ³Ãæ
+			message = "æœªçŸ¥é”™è¯¯ï¼Œæ³¨å†Œå¤±è´¥ã€‚ç°åœ¨å°†è¦è·³è½¬åˆ°æ³¨å†Œé¡µé¢";	//æ³¨å†Œå¤±è´¥ä¿¡æ¯
+			url = "reg.jsp";										 //è¿”å›æ³¨å†Œé¡µé¢
 		}
 		return SUCCESS;
 	}

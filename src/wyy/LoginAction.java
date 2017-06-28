@@ -4,31 +4,31 @@ import org.springframework.jdbc.core.*;
 public class LoginAction extends UnameUniqueAction{
 	@Override
 	public String execute() throws Exception{
-		String randNum = (String)getSession().get("randNum");		//µÃµ½´æÔÚSessionÖĞµÄÑéÖ¤Âë
-		randNum = randNum.toUpperCase();							//½«ÑéÖ¤Âë×ª´óĞ´
+		String randNum = (String)getSession().get("randNum");		//å¾—åˆ°å­˜åœ¨Sessionä¸­çš„éªŒè¯ç 
+		randNum = randNum.toUpperCase();							//å°†éªŒè¯ç è½¬å¤§å†™
 		if(!randNum.equals(valcode)){
-			message = "ÑéÖ¤ÂëÊäÈë´íÎó£¬µÇÂ½Ê§°Ü£¬ÏÖÔÚ½«Ìø×ªµ½µÇÂ½Ò³";
-			url = "login.jsp";										//ÑéÖ¤Âë´íÎó
-			return SUCCESS;											//·µ»ØµÇÂ¼Ò³Ãæ
+			message = "éªŒè¯ç è¾“å…¥é”™è¯¯ï¼Œç™»é™†å¤±è´¥ï¼Œç°åœ¨å°†è·³è½¬åˆ°ç™»é™†é¡µ";
+			url = "login.jsp";										//éªŒè¯ç é”™è¯¯
+			return SUCCESS;											//è¿”å›ç™»å½•é¡µé¢
 		}
-		sql = "select URole from DY_User where UName='"+			//¸ù¾İÓÃ»§ÃûºÍÃÜÂëËÑË÷
-			  uname+"' and UPwd='"+pwd+"' and URole<2";				//³ö¸ÃÓÃ»§µÄURoleÊôĞÔ		
-		String role = dbu.getStringInfo(sql);						//Ö´ĞĞËÑË÷µÃµ½µÇÂ½ÓÃ»§µÄÈ¨ÏŞ
-		sql = "select UID from DY_User where UName='"+uname+"'";	//µÃµ½ÓÃ»§µÄIDµÄSQL
-		String uid = dbu.getStringInfo(sql);						//Ö´ĞĞ²éÑ¯
+		sql = "select URole from DY_User where UName='"+			//æ ¹æ®ç”¨æˆ·åå’Œå¯†ç æœç´¢
+			  uname+"' and UPwd='"+pwd+"' and URole<2";				//å‡ºè¯¥ç”¨æˆ·çš„URoleå±æ€§		
+		String role = dbu.getStringInfo(sql);						//æ‰§è¡Œæœç´¢å¾—åˆ°ç™»é™†ç”¨æˆ·çš„æƒé™
+		sql = "select UID from DY_User where UName='"+uname+"'";	//å¾—åˆ°ç”¨æˆ·çš„IDçš„SQL
+		String uid = dbu.getStringInfo(sql);						//æ‰§è¡ŒæŸ¥è¯¢
 		if(role!=null){
-			getSession().put("uname",uname);						//½«µÇÂ½ÓÃ»§Ãû·Å½øsession
-			getSession().put("role",role);							//½«ÓÃ»§½ÇÉ«·Å½øsession
-			getSession().put("uid",uid);							//½«ÓÃ»§ID·Å½øsession
+			getSession().put("uname",uname);						//å°†ç™»é™†ç”¨æˆ·åæ”¾è¿›session
+			getSession().put("role",role);							//å°†ç”¨æˆ·è§’è‰²æ”¾è¿›session
+			getSession().put("uid",uid);							//å°†ç”¨æˆ·IDæ”¾è¿›session
 			sql = "update DY_User set ULastLogin=now() where UID="+uid;
-			dbu.update(sql);										//¸üĞÂÓÃ»§×îºóµÇÂ½Ê±¼ä
-			message="»¶Ó­»ØÀ´£¬"+uname+"¡£ÏÖÔÚ½«ÒªÌø×ªµ½Ö÷Ò³";
-			url = "IndexAction.action?actionStr=all";				//µÇÂ½³É¹¦½øÈëÊ×Ò³
+			dbu.update(sql);										//æ›´æ–°ç”¨æˆ·æœ€åç™»é™†æ—¶é—´
+			message="æ¬¢è¿å›æ¥ï¼Œ"+uname+"ã€‚ç°åœ¨å°†è¦è·³è½¬åˆ°ä¸»é¡µ";
+			url = "IndexAction.action?actionStr=all";				//ç™»é™†æˆåŠŸè¿›å…¥é¦–é¡µ
 		}
 		else{
-			message = "ÓÃ»§ÃûºÍÃÜÂë²»Æ¥Åä£¬µÇÂ½Ê§°Ü,ÏÖÔÚ½«ÒªÌø×ªµ½µÇÂ½Ò³";
-			url = "login.jsp";										//ÓÃ»§ÃûºÍÃÜÂë²»Æ¥Åä
+			message = "ç”¨æˆ·åå’Œå¯†ç ä¸åŒ¹é…ï¼Œç™»é™†å¤±è´¥,ç°åœ¨å°†è¦è·³è½¬åˆ°ç™»é™†é¡µ";
+			url = "login.jsp";										//ç”¨æˆ·åå’Œå¯†ç ä¸åŒ¹é…
 		}
-		return SUCCESS;												//·µ»Ø½á¹ûÊÓÍ¼
+		return SUCCESS;												//è¿”å›ç»“æœè§†å›¾
 	}
 }
