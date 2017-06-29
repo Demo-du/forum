@@ -21,7 +21,7 @@
           <result name="success">/message.jsp</result>
           <result name="login">/adminMessage.jsp</result>
       </action>
-      <action name="IndexAction" class="Index">
+      <action name="IndexAction" class="Index"> 
           <result name="success">/index.jsp</result>
       </action>
 	</package>
