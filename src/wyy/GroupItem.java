@@ -1,14 +1,15 @@
 package wyy;
+//鏉垮潡
 public class GroupItem {
-	private String gName;					//板块名称
-	private String detail;					//板块描述
-	private String topic;					//板块话题总数
-	private String revert;					//板块回帖总数
-	private String uname;					//最后回复的用户
-	private String lastTime;				//最后发表日期
-	private String tid;						//最后回复帖子的ID
-	private String gid;						//板块ID
-	private String title;					//帖子标题
+	private String gName;					
+	private String detail;					
+	private String topic;					
+	private String revert;					
+	private String uname;					
+	private String lastTime;				
+	private String tid;						
+	private String gid;						
+	private String title;					
 	public String getTitle() {
 		return title;
 	}

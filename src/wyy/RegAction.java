@@ -20,7 +20,7 @@ public class RegAction extends UnameUniqueAction {
 		String randNum = (String)getSession().get("randNum");		//得到存在Session中的验证码
 		randNum = randNum.toUpperCase();							//将验证码转大写
 		if(!randNum.equals(valcode)){								//如果验证码相同
-			message = "验证码输入错误，注册失败，请重新输入。现"+
+			message = "error验证码输入错误，注册失败，请重新输入。现"+
 											"在将要跳转到注册页面"; //给出提示信息
 			url = "reg.jsp";
 			return SUCCESS;

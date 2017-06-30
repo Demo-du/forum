@@ -3,24 +3,24 @@ import java.util.*;
 import com.opensymphony.xwork2.*;
 
 public class ToUserListAction extends FenYeAction{
-    private List content;		//ÏÔÊ¾ÄÚÈİ
-    private String key;			//²éÕÒÌõ¼ş
-    private String value;		//²éÕÒ¹Ø¼ü×Ö
-    private String condition;	//Ìõ¼ş
-    private String selected;	//ÏÂÀ­Ñ¡ÖĞ
-    private String uid;			//ÓÃ»§ID²ÎÊı
+    private List content;		//æ˜¾ç¤ºå†…å®¹
+    private String key;			//æŸ¥æ‰¾æ¡ä»¶
+    private String value;		//æŸ¥æ‰¾å…³é”®å­—
+    private String condition;	//æ¡ä»¶
+    private String selected;	//ä¸‹æ‹‰é€‰ä¸­
+    private String uid;			//ç”¨æˆ·IDå‚æ•°
     public void setCondition(String condition){
     	this.selected = condition;
-    	if("all".equals(condition)){				//ÏÔÊ¾ËùÓĞÓÃ»§
+    	if("all".equals(condition)){				//æ˜¾ç¤ºæ‰€æœ‰ç”¨æˆ·
     		condition = " where URole<2";
     	}
-    	if("stu".equals(condition)){				//ÏÔÊ¾Ñ§ÉúÓÃ»§
+    	if("stu".equals(condition)){				//æ˜¾ç¤ºå­¦ç”Ÿç”¨æˆ·
     		condition = " where URole=0";
     	}
-    	if("teacher".equals(condition)){			//ÏÔÊ¾ÀÏÊ¦ÓÃ»§
+    	if("teacher".equals(condition)){			//æ˜¾ç¤ºè€å¸ˆç”¨æˆ·
     		condition = " where URole=1";
     	}
-    	this.setCurPage(1);							//ÉèÖÃÏÔÊ¾µÚÒ»Ò³
+    	this.setCurPage(1);							//è®¾ç½®æ˜¾ç¤ºç¬¬ä¸€é¡µ
     	getSession().put("condition",condition);
     }
     public String getSelected(){
@@ -62,28 +62,28 @@ public class ToUserListAction extends FenYeAction{
 	}
 	@Override
 	public String execute()throws Exception{
-		if("del".equals(actionStr)){						//É¾³ıÓÃ»§µÄ¶¯×÷
+		if("del".equals(actionStr)){						//åˆ é™¤ç”¨æˆ·çš„åŠ¨ä½œ
 			sql = "delete from DY_User where UID="+uid;
 			if(dbu.update(sql)){
-				message = "alert('É¾³ıIDÎª"+uid+"ÓÃ»§³É¹¦')";
+				message = "alert('åˆ é™¤IDä¸º"+uid+"ç”¨æˆ·æˆåŠŸ')";
 			}
 			else{
-				message = "alert('Î´Öª´íÎóÉ¾³ıÊ§°Ü')";
+				message = "alert('æœªçŸ¥é”™è¯¯åˆ é™¤å¤±è´¥')";
 			}
 			this.setCurPage(1);
 		}
-		if("jy".equals(actionStr)){							//½ûÑÔÄ³¸öÓÃ»§
+		if("jy".equals(actionStr)){							//ç¦è¨€æŸä¸ªç”¨æˆ·
 			sql = "update DY_User set UPermit=0 where UID="+uid;
-			dbu.update(sql);								//Ö´ĞĞ¸üĞÂ
+			dbu.update(sql);								//æ‰§è¡Œæ›´æ–°
 		}
 		if("hf".equals(actionStr)){
 			sql = "update DY_User set UPermit=1 where UID="+uid;
-			dbu.update(sql);								//Ö´ĞĞ¸üĞÂ
+			dbu.update(sql);								//æ‰§è¡Œæ›´æ–°
 		}
 		if("setTeacher".equals(actionStr)){
-			sql = "select 1 from DY_TU where UID="+uid;		//²é¿´¸ÃÓÃ»§ÊÇ·ñÊôÓÚÄ³¿Î³Ì
-			if(dbu.isExist(sql)){							//Èç¹û¸ÃÓÃ»§ÊôÓÚÄ³¿Î³Ì£¬ÔòÎªÑ§ÉúÓÃ»§
-				message = "alert('IDÎª["+uid+"]µÄÓÃ»§ÎªÑ§ÉúÓÃ»§£¬²»ÄÜÖ¸¶¨ÎªÀÏÊ¦')";
+			sql = "select 1 from DY_TU where UID="+uid;		//æŸ¥çœ‹è¯¥ç”¨æˆ·æ˜¯å¦å±äºæŸè¯¾ç¨‹
+			if(dbu.isExist(sql)){							//å¦‚æœè¯¥ç”¨æˆ·å±äºæŸè¯¾ç¨‹ï¼Œåˆ™ä¸ºå­¦ç”Ÿç”¨æˆ·
+				message = "alert('IDä¸º["+uid+"]çš„ç”¨æˆ·ä¸ºå­¦ç”Ÿç”¨æˆ·ï¼Œä¸èƒ½æŒ‡å®šä¸ºè€å¸ˆ')";
 			}
 			else{
 				sql = "update DY_User set URole=1 where UID="+uid;
@@ -94,7 +94,7 @@ public class ToUserListAction extends FenYeAction{
 			sql = "update DY_User set URole=0 where UID="+uid;
 			dbu.update(sql);
 		}
-		content = dbu.getUserList(getFenYe());			//²éÑ¯Êı¾İ¿âµÃµ½ÏÔÊ¾ÄÚÈİ
+		content = dbu.getUserList(getFenYe());			//æŸ¥è¯¢æ•°æ®åº“å¾—åˆ°æ˜¾ç¤ºå†…å®¹
 		return SUCCESS;
 	}
 }

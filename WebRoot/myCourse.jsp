@@ -5,9 +5,8 @@
 	  <title>
 	    <s:text name="index.title"/>	    
 	  </title>
-	  <link rel="stylesheet" type="text/css" href="css/style2.css" />
+	  <link rel="stylesheet" type="text/css" href="css/style2.css"/>
 	  <script language="JavaScript" src="script/fenye.js"></script>
-	  <script language="JavaScript" src="script/keyUp.js"></script>
 	</head>
 	<body>
 	  <s:include value="top.jsp"/>
@@ -16,28 +15,26 @@
 	  		<tr>
 	  			<td>
 	  				<a href="IndexAction.action?actionStr=all"><s:text name="msg.nav"/></a>
+	  				&raquo;&nbsp;我的课程
 	  			</td>
-	  			<s:form action="IndexAction" theme="simple">
-	  			<td align="right">	  				
-				  	<s:radio name="condition" value="'TGID'"
-				  		list="#{'TGID':'按课程号','TGName':'按课程名'}"
-				  		listKey='key'
-				  		listValue='value'
-				  	/>
-				  	<s:textfield cssClass="input2" name="key" value="请输入关键字"
-				  				 onfocus="value=''"/>
-				  	 <script>
-				  	 	document.all.key.onkeypress=keyUp;
-				  	 </script>
-				  	<s:submit id="button2" value="搜索"/>
-	  			</td>
-	  			</s:form>
 	  		</tr>
 	  	</table>
 	  </div>
-	  <s:if test="indexList.size()!=0">
+	  <table class="myinfo" border="0" cellpadding="0" cellspacing="0">
+	  	<tr>
+	  		<td width="155" style="vertical-align:top;">
+	  			<s:if test="#session.role==0">
+	  				<s:include value="stu_left_menu.jsp"/>
+	  			</s:if>
+	  			<s:if test="#session.role==1">
+	  				<s:include value="teacher_left_menu.jsp"/>
+	  			</s:if>		  		
+	  		</td>
+	  		<td>
+	  			<div class="changeInfo">
+				<h3>我的课程</h3>
+	  <s:if test="content.size()!=0">
 	  <div class="indexbox">
-	  	<div class="indextitle">课程列表&nbsp;&nbsp;</div>
 	  	<table cellspacing="0" cellpadding="0" width="100%" border="0">
 	  		<tr>
 	  			<th width="33%" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -48,7 +45,7 @@
 	  			<th width="2%">&nbsp;</th>
 	  			<th width="50%">最后发表</th>
 	  		</tr>
-	  		<s:iterator value="indexList" status="st">
+	  		<s:iterator value="content" status="st">
 	  			<tr id="list<s:property value="#st.index"/>"
 	  				onmousemove="myMouseOn('list<s:property value="#st.index"/>')"
 	  			    onmouseout="myMouseOut('list<s:property value="#st.index"/>')"
@@ -81,18 +78,22 @@
 	  	</table>
 	  </div>
 		<!-- 分页导航条 -->
-		<s:url id="target" value="IndexAction" includeParams="none"/>	  
+		<s:url id="target" value="TMCAction" includeParams="none"/>	  
 		<s:include value="nav.jsp">
 		</s:include>
 	  </s:if>
 	  <s:else>
-	  	<div class="messagebox">
+	  	<div class="personal_messagebox">
 			<h1>东城在线提示您：没有内容可显示</h1>
 			<p><s:property value="message"/></p>
 			<p><a href="IndexAction.action">点此处去主页</a></p>
 			<p><a href="<s:property value="url"/>">如果浏览器没有自动跳转，请点此处</a></p>		
 		</div>
-	  </s:else>
+	  </s:else>								
+	  </div>
+	  		</td>
+	  	</tr>
+	  </table>
 	  <img src="images/bottom.jpg" border="0" width="100%" height="60"/>
 	</body>
 </html>

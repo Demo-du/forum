@@ -3,12 +3,12 @@ import java.util.*;
 import com.opensymphony.xwork2.*;
 public class TopicListAction extends FenYeAction{
 	private int tgid;
-	public void setTgid(int tgid){				//tgidÊôĞÔµÄset·½·¨
-		this.tgid = tgid;						//ÉèÖÃtgidµÄÖµ
-		getSession().put("tgid",tgid);			//½«ÆäÖµ·Å½øsessionÖĞ
-		this.setCurPage(1);						//ÉèÖÃµ±Ç°Ò³ÏÔÊ¾µÚÒ»Ò³
+	public void setTgid(int tgid){				//tgidå±æ€§çš„setæ–¹æ³•
+		this.tgid = tgid;						//è®¾ç½®tgidçš„å€¼
+		getSession().put("tgid",tgid);			//å°†å…¶å€¼æ”¾è¿›sessionä¸­
+		this.setCurPage(1);						//è®¾ç½®å½“å‰é¡µæ˜¾ç¤ºç¬¬ä¸€é¡µ
 	}
-	public int getTgid(){						//µÃµ½¿Î³ÌID		 									
+	public int getTgid(){						//å¾—åˆ°è¯¾ç¨‹ID		 									
 		return (Integer)getSession().get("tgid");
 	}
 	@Override
@@ -28,7 +28,7 @@ public class TopicListAction extends FenYeAction{
 		return sql;
 	}
 	public List getContent(){
-		return dbu.getGroupContent(getFenYe());//µÃµ½Ò³ÃæÏÔÊ¾ÄÚÈİ
+		return dbu.getGroupContent(getFenYe());//å¾—åˆ°é¡µé¢æ˜¾ç¤ºå†…å®¹
 	}
 	public String getGName(){
 		tempSql = "select TGName from DY_Topic_Group where"+
@@ -42,20 +42,20 @@ public class TopicListAction extends FenYeAction{
 		if("0".equals(role)){
 			tempSql = "select 1 from DY_TU where UID="+uid+
 				" and TGID="+getTgid();
-			if(!dbu.isExist(tempSql)){					//¸ÃÑ§Éú²»ÊôÓÚÕâÃÅ¿Î
+			if(!dbu.isExist(tempSql)){					//è¯¥å­¦ç”Ÿä¸å±äºè¿™é—¨è¯¾
 				tempSql = "select 1 from DY_Apply da where UID="+uid+
-					" and AFlag=0 and TGID="+getTgid();	//²é¿´ÊÇ·ñÒÑÌá½»¸ÃÃÅ¿ÎµÄÉêÇë²¢ÇÒÃ»ÓĞ´¦Àí
+					" and AFlag=0 and TGID="+getTgid();	//æŸ¥çœ‹æ˜¯å¦å·²æäº¤è¯¥é—¨è¯¾çš„ç”³è¯·å¹¶ä¸”æ²¡æœ‰å¤„ç†
 				if(dbu.isExist(tempSql)){
 					url = "IndexAction.action?actionStr=all";
-					message = "ÄúÒÑ¾­Ìá½»ÁË¸ÃÃÅ¿ÎµÄÉêÇë£¬ÇëÄÍĞÄµÈ´ı";
+					message = "æ‚¨å·²ç»æäº¤äº†è¯¥é—¨è¯¾çš„ç”³è¯·ï¼Œè¯·è€å¿ƒç­‰å¾…";
 				}
 				else{
 					url = "apply.jsp?tgid="+tgid;
-					message = "¶Ô²»Æğ£¬ÄãÃ»Ñ¡ÔñÕâÃÅ¿Î£¬Äã¿ÉÒÔÉêÇëÕâÃÅ¿Î";
+					message = "å¯¹ä¸èµ·ï¼Œä½ æ²¡é€‰æ‹©è¿™é—¨è¯¾ï¼Œä½ å¯ä»¥ç”³è¯·è¿™é—¨è¯¾";
 				}
 				return ERROR;
 			}
 		}
-		return SUCCESS;									//·µ»ØSUCCESS×Ö·û´®
+		return SUCCESS;									//è¿”å›SUCCESSå­—ç¬¦ä¸²
 	}
 }

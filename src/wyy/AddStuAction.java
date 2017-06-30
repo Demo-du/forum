@@ -3,8 +3,8 @@ import java.util.Vector;
 import com.opensymphony.xwork2.*;
 
 public class AddStuAction extends TipAndFenYeAction{
-	private String course;	//¿Î³ÌºÅ
-	private String stuNO;	//Ñ§ÉúÑ§ºÅ
+	private String course;	//è¯¾ç¨‹å·
+	private String stuNO;	//å­¦ç”Ÿå­¦å·
 	public String getCourse() {
 		return course;
 	}
@@ -19,35 +19,35 @@ public class AddStuAction extends TipAndFenYeAction{
 	}
 	@Override
     public String execute()throws Exception{
-    	Vector<String> v = new Vector<String>();	//´´½¨SQLÓï¾äÏòÁ¿
-    	StringBuilder sba = new StringBuilder();	//´´½¨ÓÃÓÚ¼ÇÂ¼²åÈë³É¹¦Ñ§ÉúÑ§ºÅµÄ×Ö·û´®
-    	StringBuilder sbb = new StringBuilder();	//¼ÇÂ¼ÒÑ¾­ÔÚ¸Ã¿Î³ÌÏÂµÄÑ§ÉúÑ§ºÅ
-    	StringBuilder sbc = new StringBuilder();	//¼ÇÂ¼Ñ§ºÅ²»´æÔÚµÄ×Ö·û´®
-    	String sno[] = stuNO.split(";");			//½«Ñ§ºÅ°´·ÖºÅ·Ö¿ª
+    	Vector<String> v = new Vector<String>();	//åˆ›å»ºSQLè¯­å¥å‘é‡
+    	StringBuilder sba = new StringBuilder();	//åˆ›å»ºç”¨äºè®°å½•æ’å…¥æˆåŠŸå­¦ç”Ÿå­¦å·çš„å­—ç¬¦ä¸²
+    	StringBuilder sbb = new StringBuilder();	//è®°å½•å·²ç»åœ¨è¯¥è¯¾ç¨‹ä¸‹çš„å­¦ç”Ÿå­¦å·
+    	StringBuilder sbc = new StringBuilder();	//è®°å½•å­¦å·ä¸å­˜åœ¨çš„å­—ç¬¦ä¸²
+    	String sno[] = stuNO.split(";");			//å°†å­¦å·æŒ‰åˆ†å·åˆ†å¼€
     	int size = sno.length;
     	for(int i=0;i<size;i++){
     		String no = sno[i].trim();
-    		String sql = "select 1 from DY_User where UID="+no;//²éÑ¯¸ÃÑ§ºÅ¶ÔÓ¦Ñ§ÉúÊÇ·ñ´æÔÚ
+    		String sql = "select 1 from DY_User where UID="+no;//æŸ¥è¯¢è¯¥å­¦å·å¯¹åº”å­¦ç”Ÿæ˜¯å¦å­˜åœ¨
     		if(dbu.isExist(sql)){
     			sql = "select 1 from DY_TU where UID="+no+" and TGID="+course;
-    			if(dbu.isExist(sql)){							//Èç¹û¸ÃÉúÒÑ¾­ÔÚ¸Ã¿Î³ÌÏÂ
+    			if(dbu.isExist(sql)){							//å¦‚æœè¯¥ç”Ÿå·²ç»åœ¨è¯¥è¯¾ç¨‹ä¸‹
     				sbb.append(no+";");
     			}
     			else{
-    				sba.append(no+";");							//¸ÃÉú·ûºÏÌí¼ÓÌõ¼ş
+    				sba.append(no+";");							//è¯¥ç”Ÿç¬¦åˆæ·»åŠ æ¡ä»¶
     				v.add("insert into DY_TU(UID,TGID) values ("
-    					+no+","+course+")");//½«´æÔÚµÄÑ§ºÅ²åÈëÊı¾İ¿âµÄSQLÓï¾ä
+    					+no+","+course+")");//å°†å­˜åœ¨çš„å­¦å·æ’å…¥æ•°æ®åº“çš„SQLè¯­å¥
     			}
     		}
-    		else{												//Ñ§ºÅ²»´æÔÚµÄ¼ÇÂ¼
+    		else{												//å­¦å·ä¸å­˜åœ¨çš„è®°å½•
     			sbc.append(no+";");
     		}
     	}
-    	if(dbu.update(v)){										//Ö´ĞĞ¸üĞÂ²åÈëÊı¾İ¿â
-    		message = sba.length()>0?"Ñ§ºÅ["+sba.toString()+"]µÄÑ§Éú²åÈë³É¹¦<br>":"";
+    	if(dbu.update(v)){										//æ‰§è¡Œæ›´æ–°æ’å…¥æ•°æ®åº“
+    		message = sba.length()>0?"å­¦å·["+sba.toString()+"]çš„å­¦ç”Ÿæ’å…¥æˆåŠŸ<br>":"";
     	}
-    	message += sbb.length()>0?"Ñ§ºÅ["+sbb.toString()+"]µÄÑ§ÉúÒÑ¾­ÔÚ¸Ã¿Î³ÌÏÂ<br>":"";
-    	message += sbc.length()>0?"Ñ§ºÅ["+sbc.toString()+"]µÄÑ§Éú²»´æÔÚ£¬ÇëºË¶ÔÊäÈë<br>":"";
+    	message += sbb.length()>0?"å­¦å·["+sbb.toString()+"]çš„å­¦ç”Ÿå·²ç»åœ¨è¯¥è¯¾ç¨‹ä¸‹<br>":"";
+    	message += sbc.length()>0?"å­¦å·["+sbc.toString()+"]çš„å­¦ç”Ÿä¸å­˜åœ¨ï¼Œè¯·æ ¸å¯¹è¾“å…¥<br>":"";
     	return SUCCESS;
     }
 }
