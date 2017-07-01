@@ -1,10 +1,10 @@
 package wyy;
 import com.opensymphony.xwork2.*;
 public class EmitAction extends DYBaseAction{
-    private String bt;			//ÎÊÌâ±êÌâ
-    private String nr;			//ÎÊÌâÄÚÈİ
-    private int tid;			//Ëù»Ø¸´ÎÊÌâID
-    private int tgid;			//·¢ÆğÎÊÌâµÄ¿Î³Ì
+    private String bt;			//é—®é¢˜æ ‡é¢˜
+    private String nr;			//é—®é¢˜å†…å®¹
+    private int tid;			//æ‰€å›å¤é—®é¢˜ID
+    private int tgid;			//å‘èµ·é—®é¢˜çš„è¯¾ç¨‹
 	public int getTid() {
 		return tid;
 	}
@@ -36,15 +36,15 @@ public class EmitAction extends DYBaseAction{
 		String uid = (String)getSession().get("uid");
 		sql = "select UPermit from DY_User where UID="+uid;
 		String permit = dbu.getStringInfo(sql);
-		if(actionStr.equals("hftz")){			//¶¯×÷ÊÇ»Ø¸´ÎÊÌâ
-			if(permit.equals("0")){					//Ã»ÓĞÈ¨ÏŞ
-				message = "¶Ô²»Æğ£¬ÄãÃ»ÓĞ·¢±íµÄÈ¨ÏŞ£¬ÇëÁªÏµ¹ÜÀíÔ±½â¾ö";
+		if(actionStr.equals("hftz")){			//åŠ¨ä½œæ˜¯å›å¤é—®é¢˜
+			if(permit.equals("0")){					//æ²¡æœ‰æƒé™
+				message = "å¯¹ä¸èµ·ï¼Œä½ æ²¡æœ‰å‘è¡¨çš„æƒé™ï¼Œè¯·è”ç³»ç®¡ç†å‘˜è§£å†³";
 				url = "TTDAction.action?tid="+tid+"&actionStr=maxPage";
 				return SUCCESS;
 			}
 			sql = "select 1 from DY_Topic where TID="+tid;
 			if(!dbu.isExist(sql)){
-				message = "¶Ô²»Æğ£¬Äã»Ø¸´µÄÎÊÌâ²»´æÔÚ";
+				message = "å¯¹ä¸èµ·ï¼Œä½ å›å¤çš„é—®é¢˜ä¸å­˜åœ¨";
 				url = "IndexAction.action?actionStr=all";
 				return SUCCESS;
 			}
@@ -52,26 +52,26 @@ public class EmitAction extends DYBaseAction{
 				"RContent,RDate) values('"+tid+"','"+uid+"','"+bt
 				+"','"+nr+"',now())";
 			if(dbu.update(sql)){
-				message = "»Ø¸´³É¹¦£¬ÏÖÔÚ½«ÒªÌø×ªµ½ÎÊÌâÒ³Ãæ";
+				message = "å›å¤æˆåŠŸï¼Œç°åœ¨å°†è¦è·³è½¬åˆ°é—®é¢˜é¡µé¢";
 				url = "TTDAction.action?tid="+tid;
 			}
 		}
-		if(actionStr.equals("fqwt")){			//·¢ÆğĞÂÎÊÌâ
-			if(permit.equals("0")){					//Ã»ÓĞÈ¨ÏŞ
-				message = "¶Ô²»Æğ£¬ÄãÃ»ÓĞ·¢±íµÄÈ¨ÏŞ£¬ÇëÁªÏµ¹ÜÀíÔ±½â¾ö";
+		if(actionStr.equals("fqwt")){			//å‘èµ·æ–°é—®é¢˜
+			if(permit.equals("0")){					//æ²¡æœ‰æƒé™
+				message = "å¯¹ä¸èµ·ï¼Œä½ æ²¡æœ‰å‘è¡¨çš„æƒé™ï¼Œè¯·è”ç³»ç®¡ç†å‘˜è§£å†³";
 				url = "TTLAction.action?tgid="+tgid;
 				return SUCCESS;
 			}
 			sql = "insert into DY_Topic(UID,TGID,TTitle,"+
 				"TContent,TDate)values ('"+uid+"',"+tgid+",'"+bt+
 				"','"+nr+"',now())";
-			if(dbu.update(sql)){				//³É¹¦²åÈëĞÂÎÊÌâ
-				message = "ĞÂÎÊÌâ·¢±í³É¹¦£¬ÏÖÔÚ½«ÒªÌø×ªµ½¸Ã¿Î³ÌÎÊÌâÁĞ±íÒ³Ãæ";
+			if(dbu.update(sql)){				//æˆåŠŸæ’å…¥æ–°é—®é¢˜
+				message = "æ–°é—®é¢˜å‘è¡¨æˆåŠŸï¼Œç°åœ¨å°†è¦è·³è½¬åˆ°è¯¥è¯¾ç¨‹é—®é¢˜åˆ—è¡¨é¡µé¢";
 				url = "TTLAction.action?tgid="+tgid;
 			}
 		}
 		sql = "update DY_User set ULastEmit=now() where UID="+uid;
-		dbu.update(sql);						//¸üĞÂÓÃ»§×îºó·¢±íµÄÊ±¼ä
+		dbu.update(sql);						//æ›´æ–°ç”¨æˆ·æœ€åå‘è¡¨çš„æ—¶é—´
 		return SUCCESS;
 	}
 }
