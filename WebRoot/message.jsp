@@ -32,7 +32,7 @@
 		</table>
 		</div>
 		<div class="messagebox">
-			<h1>东城在线提示您：</h1>
+			<h1>南航在线提示您：</h1>
 			<p><s:property value="message"/></p>
 			<p><a href="IndexAction.action">点此处去主页</a></p>
 			<p><a href="<s:property value="url"/>">如果浏览器没有自动跳转，请点此处</a></p>		

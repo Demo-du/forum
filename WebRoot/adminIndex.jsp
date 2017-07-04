@@ -2,7 +2,7 @@
 <%@taglib prefix="s" uri="/struts-tags"%>
 <html>
 <head>
-	<title>东城在线管理中心</title>
+	<title>南京航空航天大学在线管理中心</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
 </head>
 <s:if test="#session.role>1">

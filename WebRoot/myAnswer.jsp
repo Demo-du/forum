@@ -101,7 +101,7 @@
 	  </s:if>
 	  <s:else>
 	  	<div class="personal_messagebox">
-			<h1>东城在线提示您：没有内容可显示</h1>
+			<h1>南航在线提示您：没有内容可显示</h1>
 			<p><s:property value="message"/></p>
 			<p><a href="IndexAction.action">点此处去主页</a></p>
 			<p><a href="JavaScript:history.back();">点击这里返回上一页</a></p>
